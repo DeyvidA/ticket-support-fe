@@ -1,24 +1,6 @@
-<script setup lang="ts">
-import { useForm } from "vee-validate";
-import { toTypedSchema } from "@vee-validate/zod";
-import * as z from "zod";
-
-const formSchema = toTypedSchema(
-  z.object({
-    username: z.string().min(2).max(50),
-  })
-);
-
-const form = useForm({
-  validationSchema: formSchema,
-});
-
-const onSubmit = form.handleSubmit((values) => {
-  console.log("Form submitted!", values);
-});
-</script>
-
 <template>
+  <Head> </Head>
+
   <Card class="w-full max-w-md">
     <form @submit="onSubmit">
       <CardHeader class="space-y-1">
@@ -115,13 +97,33 @@ import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 
+useSeoMeta({
+  title: "Register - TicketPro Support",
+  description:
+    "Create an account to access TicketPro's support system and manage your tickets efficiently.",
+  ogTitle: "Register - TicketPro Support",
+  ogDescription:
+    "Create an account to access TicketPro's support system and manage your tickets efficiently.",
+  // ogImage: "https://example.com/register-image.png",
+  keywords: "register, TicketPro, support system, account creation",
+});
+
+useHead({
+  meta: [{ name: "robots", content: "index,follow" }],
+});
+
 const formSchema = toTypedSchema(
-  z.object({
-    username: z.string().min(2).max(50),
-    email: z.string().email(),
-    password: z.string().min(6),
-    confirmPassword: z.string().ref("password"),
-  })
+  z
+    .object({
+      username: z.string().min(2).max(50),
+      email: z.string().email(),
+      password: z.string().min(6),
+      confirmPassword: z.string().min(6),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords don't match",
+      path: ["confirmPassword"],
+    })
 );
 
 const form = useForm({

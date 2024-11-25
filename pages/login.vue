@@ -69,6 +69,21 @@ import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 
+useSeoMeta({
+  title: "Login - TicketPro Support",
+  description:
+    "Log in to access your TicketPro support dashboard and manage your tickets effectively.",
+  ogTitle: "Login - TicketPro Support",
+  ogDescription:
+    "Log in to access your TicketPro support dashboard and manage your tickets effectively.",
+  ogImage: "https://example.com/login-image.png",
+  keywords: "login, TicketPro, support dashboard, account access",
+});
+
+useHead({
+  meta: [{ name: "robots", content: "index,follow" }],
+});
+
 const formSchema = toTypedSchema(
   z.object({
     email: z.string().email(),
