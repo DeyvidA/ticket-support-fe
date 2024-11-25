@@ -1,5 +1,4 @@
 <template>
-  <h1>Secondary Layout</h1>
-
+  <main></main>
   <slot />
 </template>

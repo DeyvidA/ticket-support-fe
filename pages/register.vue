@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+
+const formSchema = toTypedSchema(
+  z.object({
+    username: z.string().min(2).max(50),
+  })
+);
+
+const form = useForm({
+  validationSchema: formSchema,
+});
+
+const onSubmit = form.handleSubmit((values) => {
+  console.log("Form submitted!", values);
+});
+</script>
+
 <template>
   <Card class="w-full max-w-md">
     <form @submit="onSubmit">
@@ -10,10 +30,25 @@
           <CardTitle class="text-2xl font-bold">TicketPro Support</CardTitle>
         </div>
         <CardDescription>
-          Enter your credentials to access your support dashboard
+          Create an account to access our support system
         </CardDescription>
       </CardHeader>
       <CardContent class="space-y-4">
+        <FormField v-slot="{ componentField }" name="username">
+          <FormItem class="space-y-2">
+            <FormLabel htmlFor="username">Username</FormLabel>
+            <FormControl>
+              <Input
+                id="username"
+                type="text"
+                placeholder="johndoe"
+                required
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
         <FormField v-slot="{ componentField }" name="email">
           <FormItem class="space-y-2">
             <FormLabel htmlFor="email">Email</FormLabel>
@@ -21,7 +56,7 @@
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="john@example.com"
                 required
                 v-bind="componentField"
               />
@@ -44,19 +79,30 @@
             <FormMessage />
           </FormItem>
         </FormField>
-        <NuxtLink
-          to="/forgot-password"
-          class="text-sm text-blue-500 hover:underline block"
-        >
-          Forgot your password?
-        </NuxtLink>
+        <FormField v-slot="{ componentField }" name="confirmPassword">
+          <FormItem class="space-y-2">
+            <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+            <FormControl>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="Confirm Password"
+                required
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
       </CardContent>
       <CardFooter class="flex flex-col space-y-4">
-        <Button class="w-full" type="submit">Log In</Button>
+        <Button class="w-full" type="submit">
+          <Icon class="mr-2 h-4 w-4" name="lucide:user-plus" /> Register
+        </Button>
         <div class="text-sm text-center text-gray-500">
-          Don't have an account?
-          <NuxtLink to="/register" class="text-blue-500 hover:underline">
-            Sign up
+          Already have an account?
+          <NuxtLink to="/login" class="text-blue-500 hover:underline">
+            Log in
           </NuxtLink>
         </div>
       </CardFooter>
@@ -71,8 +117,10 @@ import * as z from "zod";
 
 const formSchema = toTypedSchema(
   z.object({
+    username: z.string().min(2).max(50),
     email: z.string().email(),
-    password: z.string().min(8),
+    password: z.string().min(6),
+    confirmPassword: z.string().ref("password"),
   })
 );
 
@@ -81,6 +129,6 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit((values) => {
-  // requset to the server
+  console.log("Form submitted!", values);
 });
 </script>
