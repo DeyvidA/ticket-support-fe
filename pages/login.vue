@@ -64,7 +64,7 @@
   </Card>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -95,7 +95,21 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  // requset to the server
+const onSubmit = form.handleSubmit(async (values) => {
+  const config = useRuntimeConfig();
+
+  const jwtCookies = useCookie("jwt");
+
+  const res = await $fetch(`${config.public.API_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+
+  jwtCookies.value = res.access_token;
+
+  navigateTo("/dashboard");
 });
 </script>

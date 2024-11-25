@@ -130,7 +130,21 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit((values) => {
+const onSubmit = form.handleSubmit(async (values) => {
   console.log("Form submitted!", values);
+
+  const config = useRuntimeConfig();
+
+  const apiUrl = config.public.API_URL;
+
+  await $fetch(`${apiUrl}/users/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+
+  navigateTo("/login");
 });
 </script>
