@@ -99,6 +99,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   const config = useRuntimeConfig();
 
   const jwtCookies = useCookie("jwt");
+  const userCookies = useCookie("user");
 
   const res = await $fetch(`${config.public.API_URL}/auth/login`, {
     method: "POST",
@@ -109,6 +110,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   });
 
   jwtCookies.value = res.access_token;
+  userCookies.value = res.user._id;
 
   navigateTo("/dashboard");
 });
