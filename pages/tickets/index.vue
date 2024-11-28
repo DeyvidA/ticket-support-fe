@@ -101,6 +101,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: "auth",
+});
+
 import { ref, watch } from "vue";
 
 const searchTerm = ref("");
