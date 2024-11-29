@@ -3,6 +3,14 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const userCookies = useCookie("user");
 
   if (!jwtCookies.value || !userCookies.value) {
-    return redirect("/login");
+    return navigateTo("/login");
+  }
+
+  if (to.path === "/login") {
+    return navigateTo("/tickets");
+  }
+
+  if (to.path === "/register") {
+    return navigateTo("/tickets");
   }
 });
