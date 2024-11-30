@@ -38,7 +38,7 @@
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <Button variant="ghost" class="w-full justify-start gap-2">
-                <User class="h-4 w-4" />
+                <Icon class="h-4 w-4" name="mi:user" />
                 <span>{{ userCookie.username }}</span>
               </Button>
             </DropdownMenuTrigger>
@@ -101,8 +101,8 @@
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
-            <Button variant="ghost" class="w-full justify-start gap-2">
-              <User class="h-4 w-4" />
+            <Button variant="ghost" class="w-full justify-end gap-2">
+              <Icon class="h-4 w-4" name="mi:user" />
               <span>{{ userCookie.username }}</span>
             </Button>
           </DropdownMenuTrigger>

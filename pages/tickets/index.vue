@@ -5,7 +5,6 @@
         class="flex flex-row items-center justify-between space-y-0 pb-2"
       >
         <CardTitle class="text-2xl font-bold">Your Tickets</CardTitle>
-        <TicketIcon class="h-6 w-6 text-muted-foreground" />
         <Icon
           class="h-6 w-6 text-muted-foreground"
           name="streamline:ticket-1"
@@ -34,7 +33,7 @@
               name="mingcute:filter-line"
             />
 
-            <Select onValueChange="{setStatusFilter}" defaultValue="All">
+            <Select v-model="statusFilter" defaultValue="All">
               <SelectTrigger class="w-[180px]">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
