@@ -114,7 +114,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   });
 
   jwtCookies.value = res.access_token;
-  userCookies.value = res.user._id;
+  userCookies.value = res.user;
 
   navigateTo("/dashboard");
 });

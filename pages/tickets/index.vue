@@ -1,9 +1,5 @@
 <template>
   <div class="container mx-auto p-4">
-    <NuxtLink to="/tickets/new">
-      <Button variant="primary">Create New Ticket</Button>
-    </NuxtLink>
-
     <Card>
       <CardHeader
         class="flex flex-row items-center justify-between space-y-0 pb-2"
@@ -103,6 +99,7 @@
 <script setup>
 definePageMeta({
   middleware: "auth",
+  layout: "auth",
 });
 
 import { ref, watch } from "vue";

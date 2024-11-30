@@ -72,6 +72,7 @@
 <script setup>
 definePageMeta({
   middleware: "auth",
+  layout: "auth",
 });
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
@@ -97,7 +98,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   const jwtCookies = useCookie("jwt");
   const userCookies = useCookie("user");
 
-  values.userId = userCookies.value;
+  values.userId = userCookies.value._id;
   const res = await $fetch(`${apiUrl}/tickets/create`, {
     method: "POST",
     headers: {
