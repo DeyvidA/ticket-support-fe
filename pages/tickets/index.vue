@@ -75,7 +75,7 @@
                       ? 'default'
                       : ticket.status === 'Pending'
                       ? 'secondary'
-                      : 'outline'
+                      : 'destructive'
                   "
                 >
                   {{ ticket.status }}
@@ -94,7 +94,13 @@
               </div>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" class="w-full"> View Details </Button>
+              <!-- <Button variant="outline" class="w-full"> View Details </Button> -->
+              <NuxtLink
+                :to="`/tickets/${ticket._id}`"
+                class="hover:text-primary-600 w-full text-xs font-bold text-center text-gray-700"
+              >
+                View Details
+              </NuxtLink>
             </CardFooter>
           </Card>
         </div>
@@ -110,6 +116,7 @@ definePageMeta({
 });
 
 import { ref, watch } from "vue";
+import { useDebounce } from "@vueuse/core";
 
 const searchTerm = ref("");
 const statusFilter = ref("All");
@@ -118,10 +125,21 @@ const filterData = ref([]);
 const config = useRuntimeConfig();
 const apiUrl = config.public.API_URL;
 
-const { data } = await useFetch(`${apiUrl}/tickets`, {
+const debouncedSearchTerm = useDebounce(searchTerm, 500);
+const debouncedStatusFilter = useDebounce(statusFilter, 500);
+
+const { data, refresh } = await useFetch(`${apiUrl}/tickets`, {
+  params: {
+    search: debouncedSearchTerm,
+    status: debouncedStatusFilter,
+  },
   onRequest({ request, options }) {
     const jwtCookies = useCookie("jwt");
     options.headers.set("Authorization", `Bearer ${jwtCookies.value}`);
   },
+});
+
+watch(debouncedSearchTerm, () => {
+  refresh();
 });
 </script>

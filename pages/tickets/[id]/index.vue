@@ -146,7 +146,7 @@ const apiUrl = config.public.API_URL;
 const route = useRoute();
 const jwt = useCookie("jwt");
 
-const { data: ticket, refresh: refreshTicketData } = useFetch(
+const { data: ticket, refresh: refreshTicketData } = await useFetch(
   `${apiUrl}/tickets/${route.params.id}`,
   {
     onRequest({ options }) {
@@ -186,4 +186,16 @@ const handleAddComment = commentsForm.handleSubmit(async (values) => {
 
   refreshTicketData();
 });
+
+const handleCloseTicket = async () => {
+  await $fetch(`${apiUrl}/tickets/${route.params.id}/close`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwt.value}`,
+    },
+  });
+
+  refreshTicketData();
+};
 </script>
