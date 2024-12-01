@@ -89,6 +89,7 @@ const schema = toTypedSchema(
 const form = useForm({
   validationSchema: schema,
 });
+const currentUserCookies = useCookie("auth_user");
 
 const onSubmit = form.handleSubmit(async (values) => {
   console.log(values);
