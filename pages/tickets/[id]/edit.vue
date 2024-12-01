@@ -109,7 +109,6 @@ import * as z from "zod";
 const config = useRuntimeConfig();
 const apiUrl = config.public.API_URL;
 const jwtCookies = useCookie("jwt");
-const userCookie = useCookie("auth_user");
 
 const priorityOptions = ["Low", "Medium", "High", "Urgent"];
 
