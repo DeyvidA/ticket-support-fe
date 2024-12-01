@@ -87,7 +87,7 @@
             </FormField>
           </CardContent>
           <CardFooter>
-            <Button type="submit" class="w-full">Create Ticket</Button>
+            <Button type="submit" class="w-full">Update Ticket</Button>
           </CardFooter>
         </form>
       </Card>

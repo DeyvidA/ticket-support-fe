@@ -3,7 +3,10 @@
     <aside class="hidden w-64 overflow-y-auto border-r bg-gray-100/40 lg:block">
       <div class="flex h-full flex-col">
         <div class="flex h-14 items-center border-b px-4">
-          <NuxtLink class="flex items-center gap-2 font-semibold" href="/">
+          <NuxtLink
+            class="flex items-center gap-2 font-semibold"
+            href="/dashboard"
+          >
             <Icon class="h-6 w-6" name="streamline:ticket-1" />
             <span>TicketPro</span>
           </NuxtLink>
@@ -130,13 +133,13 @@
 import { cn } from "@/lib/utils";
 const sidebarItems = [
   { href: "/tickets", label: "Tickets", icon: "streamline:ticket-1" },
-  { href: "/settings", label: "Settings", icon: "oui:gear" },
+  { href: "#", label: "Settings", icon: "oui:gear" },
 ];
 
 const currentUserCookies = useCookie("auth_user");
 
 const logout = () => {
   currentUserCookies.value = null;
-  navigateTo("/login");
+  navigateTo("/");
 };
 </script>
