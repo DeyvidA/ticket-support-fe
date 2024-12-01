@@ -65,6 +65,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: "auth",
+});
+
 import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
@@ -99,6 +103,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   const config = useRuntimeConfig();
 
   const jwtCookies = useCookie("jwt");
+  const currentUserCookies = useCookie("auth_user");
 
   const res = await $fetch(`${config.public.API_URL}/auth/login`, {
     method: "POST",
@@ -109,6 +114,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   });
 
   jwtCookies.value = res.access_token;
+  currentUserCookies.value = res.user;
 
   navigateTo("/dashboard");
 });
