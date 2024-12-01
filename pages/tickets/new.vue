@@ -96,9 +96,9 @@ const onSubmit = form.handleSubmit(async (values) => {
   const config = useRuntimeConfig();
   const apiUrl = config.public.API_URL;
   const jwtCookies = useCookie("jwt");
-  const userCookies = useCookie("user");
+  const currentUserCookies = useCookie("auth_user");
 
-  values.userId = userCookies.value._id;
+  values.userId = currentUserCookies.value._id;
   const res = await $fetch(`${apiUrl}/tickets/create`, {
     method: "POST",
     headers: {

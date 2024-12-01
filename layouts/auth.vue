@@ -14,12 +14,13 @@
               v-for="item in sidebarItems"
               :key="item.href"
               :to="item.href"
-              :class="[
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900',
-                $route.path === item.href
-                  ? 'bg-gray-200 text-gray-900'
-                  : 'hover:bg-gray-200',
-              ]"
+              :class="
+                cn(
+                  'flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900',
+                  $route.path === item.href && 'bg-gray-200 text-gray-900',
+                  'hover:bg-gray-200'
+                )
+              "
             >
               <Icon class="h-4 w-4" :name="item.icon" />
               {{ item.label }}
@@ -39,7 +40,7 @@
             <DropdownMenuTrigger as-child>
               <Button variant="ghost" class="w-full justify-start gap-2">
                 <Icon class="h-4 w-4" name="mi:user" />
-                <span>{{ userCookie.username }}</span>
+                <span>{{ currentUserCookies.username }}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" class="w-56">
@@ -103,7 +104,7 @@
           <DropdownMenuTrigger as-child>
             <Button variant="ghost" class="w-full justify-end gap-2">
               <Icon class="h-4 w-4" name="mi:user" />
-              <span>{{ userCookie.username }}</span>
+              <span>{{ currentUserCookies.username }}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" class="w-56">
@@ -127,15 +128,16 @@
 </template>
 
 <script setup>
+import { cn } from "@/lib/utils";
 const sidebarItems = [
   { href: "/tickets", label: "Tickets", icon: "streamline:ticket-1" },
   { href: "/settings", label: "Settings", icon: "oui:gear" },
 ];
 
-const userCookie = useCookie("user");
+const currentUserCookies = useCookie("auth_user");
 
 const logout = () => {
-  userCookie.value = null;
+  currentUserCookies.value = null;
   navigateTo("/login");
 };
 </script>
