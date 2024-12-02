@@ -82,7 +82,7 @@ const schema = toTypedSchema(
   z.object({
     title: z.string().nonempty("Title is required"),
     description: z.string().nonempty("Description is required"),
-    tags: z.string().nonempty("Tags is required"),
+    tags: z.string().nonempty("Tags are required"),
   })
 );
 
@@ -91,15 +91,14 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit(async (values) => {
-  console.log(values);
-
   const config = useRuntimeConfig();
   const apiUrl = config.public.API_URL;
   const jwtCookies = useCookie("jwt");
   const currentUserCookies = useCookie("auth_user");
 
   values.userId = currentUserCookies.value._id;
-  const res = await $fetch(`${apiUrl}/tickets/create`, {
+
+  await $fetch(`${apiUrl}/tickets/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

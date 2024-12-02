@@ -83,7 +83,7 @@
         </Button>
         <div class="text-sm text-center text-gray-500">
           Already have an account?
-          <NuxtLink to="/login" class="text-blue-500 hover:underline">
+          <NuxtLink to="/" class="text-blue-500 hover:underline">
             Log in
           </NuxtLink>
         </div>
@@ -149,6 +149,6 @@ const onSubmit = form.handleSubmit(async (values) => {
     body: JSON.stringify(values),
   });
 
-  navigateTo("/login");
+  navigateTo("/");
 });
 </script>

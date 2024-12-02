@@ -32,24 +32,32 @@
               class="h-4 w-4 text-muted-foreground"
               name="mingcute:filter-line"
             />
-
-            <Select v-model="statusFilter" defaultValue="All">
+            <Select v-model="statusFilter" defaultValue="all">
               <SelectTrigger class="w-[180px]">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="All">All Tickets</SelectItem>
-                <SelectItem value="Open">Open</SelectItem>
-                <SelectItem value="Pending">Pending</SelectItem>
-                <SelectItem value="Closed">Closed</SelectItem>
+                <SelectItem value="all">All Tickets</SelectItem>
+                <SelectItem value="open">Open</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="closed">Closed</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card class="flex flex-col" v-for="ticket in data" :key="ticket._id">
-            <CardHeader>
-              <CardTitle class="text-lg">{{ ticket.title }}</CardTitle>
+            <CardHeader class="flex">
+              <CardTitle class="text-lg flex justify-between items-center">
+                {{ ticket.title }}
+
+                <NuxtLink
+                  :to="`/tickets/${ticket._id}/edit`"
+                  class="text-muted-foreground hover:text-primary"
+                >
+                  <Icon class="h-4 w-4" name="basil:edit-outline" />
+                </NuxtLink>
+              </CardTitle>
             </CardHeader>
             <CardContent class="flex-grow">
               <div
@@ -67,7 +75,7 @@
                       ? 'default'
                       : ticket.status === 'Pending'
                       ? 'secondary'
-                      : 'outline'
+                      : 'destructive'
                   "
                 >
                   {{ ticket.status }}
@@ -86,7 +94,13 @@
               </div>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" class="w-full"> View Details </Button>
+              <!-- <Button variant="outline" class="w-full"> View Details </Button> -->
+              <NuxtLink
+                :to="`/tickets/${ticket._id}`"
+                class="hover:text-primary-600 w-full text-xs font-bold text-center text-gray-700"
+              >
+                View Details
+              </NuxtLink>
             </CardFooter>
           </Card>
         </div>
@@ -102,18 +116,30 @@ definePageMeta({
 });
 
 import { ref, watch } from "vue";
+import { useDebounce } from "@vueuse/core";
 
 const searchTerm = ref("");
-const statusFilter = ref("All");
+const statusFilter = ref("all");
 const filterData = ref([]);
 
 const config = useRuntimeConfig();
 const apiUrl = config.public.API_URL;
 
-const { data } = await useFetch(`${apiUrl}/tickets`, {
+const debouncedSearchTerm = useDebounce(searchTerm, 500);
+const debouncedStatusFilter = useDebounce(statusFilter, 500);
+
+const { data, refresh } = await useFetch(`${apiUrl}/tickets`, {
+  params: {
+    search: debouncedSearchTerm,
+    status: debouncedStatusFilter,
+  },
   onRequest({ request, options }) {
     const jwtCookies = useCookie("jwt");
     options.headers.set("Authorization", `Bearer ${jwtCookies.value}`);
   },
+});
+
+watch(debouncedSearchTerm, () => {
+  refresh();
 });
 </script>
