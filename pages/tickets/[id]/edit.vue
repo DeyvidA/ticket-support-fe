@@ -110,7 +110,7 @@ const config = useRuntimeConfig();
 const apiUrl = config.public.API_URL;
 const jwtCookies = useCookie("jwt");
 
-const priorityOptions = ["Low", "Medium", "High", "Urgent"];
+const priorityOptions = ["low", "medium", "high"];
 
 const schema = toTypedSchema(
   z.object({

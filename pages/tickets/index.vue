@@ -32,15 +32,15 @@
               class="h-4 w-4 text-muted-foreground"
               name="mingcute:filter-line"
             />
-            <Select v-model="statusFilter" defaultValue="All">
+            <Select v-model="statusFilter" defaultValue="all">
               <SelectTrigger class="w-[180px]">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="All">All Tickets</SelectItem>
-                <SelectItem value="Open">Open</SelectItem>
-                <SelectItem value="Pending">Pending</SelectItem>
-                <SelectItem value="Closed">Closed</SelectItem>
+                <SelectItem value="all">All Tickets</SelectItem>
+                <SelectItem value="open">Open</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="closed">Closed</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -119,7 +119,7 @@ import { ref, watch } from "vue";
 import { useDebounce } from "@vueuse/core";
 
 const searchTerm = ref("");
-const statusFilter = ref("All");
+const statusFilter = ref("all");
 const filterData = ref([]);
 
 const config = useRuntimeConfig();
